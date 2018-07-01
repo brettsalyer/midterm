@@ -6,7 +6,6 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 	
 	private int userId;
 	private HashMap<Integer, TwitterUser> usersFollowing;
-	private HashMap<Integer, TwitterUser> users = new HashMap<>();
 	
 	//Default Constructor
 	public TwitterUser() {
@@ -42,13 +41,6 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 		this.usersFollowing.put(friend.getUserId(), friend);
 	}
 	
-	public void addUser(TwitterUser user) {
-		this.users.put(user.getUserId(), user);
-	}
-	
-	public HashMap<Integer, TwitterUser> getUsers(){
-		return this.users;
-	}
 	
 	@Override
 	public int compareTo(TwitterUser o) {
