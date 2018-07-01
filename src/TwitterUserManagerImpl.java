@@ -48,7 +48,7 @@ public class TwitterUserManagerImpl implements TwitterUserManager {
 				//If user exists
 				if(users.containsKey(followingId)) {
 					//If user is already following user
-					if(users.get(followingId).getFollowing().containsKey(followedId)) {
+					if(users.get(followingId).getFollowing().contains(new TwitterUser(followingId))) {
 						//Do nothing, as he is already following this person
 					}else {
 						//Add this person to their following list

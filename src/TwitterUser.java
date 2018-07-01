@@ -1,3 +1,4 @@
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -5,7 +6,7 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 
 	
 	private int userId;
-	private HashMap<Integer, TwitterUser> usersFollowing;
+	private ArrayList<TwitterUser> usersFollowing;
 	
 	//Default Constructor
 	public TwitterUser() {
@@ -14,7 +15,7 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 	
 	public TwitterUser(int id) {
 		this.userId = id;
-		usersFollowing = new HashMap<>();
+		usersFollowing = new ArrayList<>();
 	}
 
 	
@@ -28,17 +29,17 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 	}
 
 	
-	public HashMap<Integer, TwitterUser> getFollowing() {
+	public ArrayList<TwitterUser> getFollowing() {
 		return this.usersFollowing;
 	}
 
 	
-	public void setFollowing(HashMap<Integer, TwitterUser> following) {
+	public void setFollowing(ArrayList<TwitterUser> following) {
 		this.usersFollowing = following;
 	}
 	
-	public void addFollowing(TwitterUser friend) {
-		this.usersFollowing.put(friend.getUserId(), friend);
+	public void addFollowing(TwitterUser user) {
+		this.usersFollowing.add(user);
 	}
 	
 	
@@ -64,7 +65,7 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 	}
 	
 	public ArrayList<TwitterUser> getNeighborhood(TwitterUser id,int depth){
-		ArrayList<TwitterUser> following = new ArrayList<TwitterUser>(id.usersFollowing.values());
+		ArrayList<TwitterUser> following = new ArrayList<TwitterUser>(id.getFollowing());
 		ArrayList<TwitterUser> neighbordhood = new ArrayList<>();
 		
 		if(depth > 0 && following!=null && following.size()>0){
