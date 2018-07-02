@@ -4,9 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
@@ -15,16 +12,15 @@ public class TwitterUserManagerImpl implements TwitterUserManager {
 		static final String PATH = System.getProperty("user.home") + File.separator + "sinclair" + File.separator;
 		static final String FILE_NAME = "twitter_data.txt";
 		
-		private HashMap<Integer, TwitterUser> users = new HashMap<>();
+		private HashMap<Integer, TwitterUser> users;
 
 		//Default constructor
 		public TwitterUserManagerImpl() {
-			
+			users = new HashMap<>();
 		}
 		
 		@Override
 		public int loadTwitterData() {
-			TwitterUser twitter = new TwitterUser();
 			
 			// uses try-with-resources syntax to ensure the stream is closed at the end
 			try (Stream<String> stream = Files.lines(Paths.get(PATH + FILE_NAME))) {
@@ -70,10 +66,29 @@ public class TwitterUserManagerImpl implements TwitterUserManager {
 			 return users.size();
 	
 		}
+		
 		@Override
-		public List<TwitterUser> getNeighborhood(TwitterUser user, int maximumDepth) {
-			// TODO Auto-generated method stub
-			return null;
+		public ArrayList<TwitterUser> getNeighborhood(TwitterUser id,int depth){
+			ArrayList<TwitterUser> following = new ArrayList<TwitterUser>(id.getFollowing());
+			ArrayList<TwitterUser> neighbordhood = new ArrayList<>();
+			
+			if(depth > 0 && following!=null && following.size()>0){
+				for(TwitterUser user : following){
+					neighbordhood.add(user);
+					ArrayList<TwitterUser> follower = getNeighborhood(user, depth-1);
+					for(TwitterUser f1 : follower){
+						if(!neighbordhood.contains(f1)){
+							neighbordhood.add(f1);
+						}
+					}
+				}
+				
+			}
+			return neighbordhood;
+		}
+		
+		public HashMap<Integer, TwitterUser> getUsers(){
+			return this.users;
 		}
 		
 		

@@ -1,6 +1,4 @@
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 
@@ -20,7 +18,7 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 
 	
 	public int getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	
@@ -64,23 +62,5 @@ public class TwitterUser implements Comparable<TwitterUser>, Cloneable {
 		return user;
 	}
 	
-	public ArrayList<TwitterUser> getNeighborhood(TwitterUser id,int depth){
-		ArrayList<TwitterUser> following = new ArrayList<TwitterUser>(id.getFollowing());
-		ArrayList<TwitterUser> neighbordhood = new ArrayList<>();
-		
-		if(depth > 0 && following!=null && following.size()>0){
-			for(TwitterUser user : following){
-				neighbordhood.add(user);
-				ArrayList<TwitterUser> follower = getNeighborhood(user, depth-1);
-				for(TwitterUser f1 : follower){
-					if(!neighbordhood.contains(f1)){
-						neighbordhood.add(f1);
-					}
-				}
-			}
-			
-		}
-		return neighbordhood;
-	}
 
 }
