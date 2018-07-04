@@ -68,22 +68,32 @@ public class TwitterUserManagerImpl implements TwitterUserManager {
 		}
 		
 		@Override
-		public ArrayList<TwitterUser> getNeighborhood(TwitterUser id,int depth){
-			ArrayList<TwitterUser> following = new ArrayList<TwitterUser>(id.getFollowing());
+		public ArrayList<TwitterUser> getNeighborhood(TwitterUser tu, int depth){
 			ArrayList<TwitterUser> neighbordhood = new ArrayList<>();
+			ArrayList<TwitterUser> followers = new ArrayList<>();
 			
-			if(depth > 0 && following!=null && following.size()>0){
-				for(TwitterUser user : following){
+			//Base case - stop if we've reached depth of 0 starting from 3
+			if (depth <= 0) {
+				System.out.println("No more users");
+			}else{
+				//If we haven't reached base case, and following isn't empty
+			if(depth > 0 && tu.getFollowing().size() > 0){
+				for(TwitterUser user : tu.getFollowing()){
+					//add this user
 					neighbordhood.add(user);
-					ArrayList<TwitterUser> follower = getNeighborhood(user, depth-1);
-					for(TwitterUser f1 : follower){
-						if(!neighbordhood.contains(f1)){
-							neighbordhood.add(f1);
+					//Recursion - get this users following list and decrease the depth
+					followers.equals(getNeighborhood(user, depth--));
+					//loop through these users and add them to the neighborhood if they aren't there already
+					for(TwitterUser follower : followers){
+						if(!neighbordhood.contains(follower)){
+							neighbordhood.add(follower);
 						}
 					}
 				}
 				
 			}
+			}
+			//Return this list
 			return neighbordhood;
 		}
 		
